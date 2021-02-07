@@ -2,6 +2,8 @@ from django.db import models
 
 from users.models import User
 from django.urls import reverse
+from django.contrib.contenttypes.fields import GenericRelation
+from likes.models import Like
 
 
 class Image(models.Model):
@@ -19,9 +21,18 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now=True)
     avatar = models.ImageField(blank=True, null=True, upload_to='media')
     images = models.ManyToManyField(Image, blank=True, related_name='profiles')
+    likes = GenericRelation(Like)
 
     def __str__(self):
         return self.user.username
 
     def get_absolute_url(self):
         return reverse('profile_edit', kwargs={'user': self.user})
+
+    @property
+    def total_likes(self):
+        return self.likes.count()
+
+
+
+

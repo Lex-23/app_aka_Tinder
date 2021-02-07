@@ -5,9 +5,10 @@ from .serializers import ProfileSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
+from likes.mixins import LikedMixin
 
 
-class ProfileViewSet(ModelViewSet):
+class ProfileViewSet(ModelViewSet, LikedMixin):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
