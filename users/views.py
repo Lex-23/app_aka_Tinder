@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
@@ -26,3 +26,11 @@ class RegisterUserView(CreateAPIView):
         else:
             data = serializer.errors
             return Response(data)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    User ModelViewSet.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
